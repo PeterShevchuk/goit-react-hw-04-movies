@@ -1,0 +1,7 @@
+.link {
+  color: #ffffff;
+  text-decoration: transparent;
+}
+.App > .MuiPaper-root {
+  position: fixed !important;
+}

@@ -1,0 +1,41 @@
+.movies__list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  list-style: none;
+  margin-bottom: 50px;
+}
+
+.movies__item {
+  cursor: pointer;
+  position: relative;
+  margin: 5px;
+  justify-self: center;
+}
+.movies__img {
+  width: 300px;
+  height: 400px;
+}
+.movies__title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  padding: 3px 5px;
+  margin: 5px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.movies__favorite-remove {
+  width: 35px;
+  height: auto;
+  position: absolute;
+  bottom: 4px;
+  right: 0;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  padding: 3px 5px;
+  margin: 5px;
+}
