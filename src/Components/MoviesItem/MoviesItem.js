@@ -21,7 +21,7 @@ const MoviesItem = ({ poster_path, backdrop_path, id, title, adult }) => {
       <p className="movies__title">
         {adult && "(18+)"} {title}{" "}
       </p>
-      {removeFavorite && <img className="movies__favorite-remove" alt={id} src={removeIcon} onClick={() => dispatch(removeFavorite(id))} />}
+      {history.location.pathname === "/movies/favorite" && <img className="movies__favorite-remove" alt={id} src={removeIcon} onClick={() => dispatch(removeFavorite(id))} />}
     </li>
   );
 };
