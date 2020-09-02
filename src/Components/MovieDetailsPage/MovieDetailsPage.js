@@ -6,7 +6,7 @@ import Button from "@material-ui/core/Button";
 import Rating from "@material-ui/lab/Rating";
 
 import { getMovie, request } from "../helpers/request";
-import { imgUrlOriginal, imgNon } from "../helpers/vars";
+import { imgUrl, imgNon } from "../helpers/vars";
 import Storage from "../../Components/Storage/Storage";
 
 // redux
@@ -73,7 +73,7 @@ const MovieDetailsPage = ({ match }) => {
       <div className="singleMovie">
         {title ? (
           <div className="singleMovie__container">
-            <img className="singleMovie__poster" alt={title} src={poster_path ? imgUrlOriginal + poster_path : backdrop_path ? imgUrlOriginal + backdrop_path : imgNon}></img>
+            <img className="singleMovie__poster" alt={title} src={poster_path ? imgUrl + poster_path : backdrop_path ? imgUrl + backdrop_path : imgNon}></img>
             <ul className="singleMovie__info">
               {title && (
                 <li className="singleMovie__item">

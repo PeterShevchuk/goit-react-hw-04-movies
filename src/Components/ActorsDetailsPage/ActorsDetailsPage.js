@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 
 import { getActors, request } from "../helpers/request";
-import { imgUrlOriginal, imgNon } from "../helpers/vars";
+import { imgUrl, imgNon } from "../helpers/vars";
 import MoviesItem from "../../Components/MoviesItem/MoviesItem";
 
 // redux
@@ -35,7 +35,7 @@ const ActorDetailsPage = ({ match }) => {
       {person && (
         <div className="singleActors">
           <div className="singleActors__container">
-            <img className="singleActors__poster" alt={person.name} src={person.profile_path ? imgUrlOriginal + person.profile_path : imgNon}></img>
+            <img className="singleActors__poster" alt={person.name} src={person.profile_path ? imgUrl + person.profile_path : imgNon}></img>
             <ul className="singleActors__info">
               {person.name && (
                 <li className="singleActors__item">
@@ -69,7 +69,7 @@ const ActorDetailsPage = ({ match }) => {
               <h2>Media</h2>
               <div className="actor__media">
                 <div className="actor__media-img">
-                  <img src={imgUrlOriginal + media.poster_path} alt={media.name} width="300" />
+                  <img src={imgUrl + media.poster_path} alt={media.name} width="300" />
                 </div>
                 <div>
                   <ul className="singleActors__info">

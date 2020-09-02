@@ -5,3 +5,6 @@
 .App > .MuiPaper-root {
   position: fixed !important;
 }
+.MuiFormControlLabel-root {
+  margin-left: auto !important;
+}
