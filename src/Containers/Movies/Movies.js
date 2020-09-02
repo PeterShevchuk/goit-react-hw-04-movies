@@ -5,6 +5,9 @@ import Pagination from "@material-ui/lab/Pagination";
 
 // import { useHistory, useLocation } from "react-router-dom";
 
+// Redux
+import { connect } from "react-redux";
+import Loader from "../../redux/actions/loaderActions";
 import Form from "../../Components/From/Form";
 import MoviesItem from "../../Components/MoviesItem/MoviesItem";
 import { getSearch, request } from "../../Components/helpers/request";
@@ -23,13 +26,13 @@ class Movies extends Component {
   state = defState;
 
   componentDidMount = async () => {
-    this.props.loaderToggle(true);
+    this.props.Loader(true);
     const parse = queryString.parse(this.props.location.search);
     if (parse.search) {
       this.setState({ search: parse.search, page: Number(parse.page) });
       this.updateMovies(parse.search, Number(parse.page));
     }
-    this.props.loaderToggle(false);
+    this.props.Loader(false);
   };
   componentDidUpdate = async (prevProps, prevState) => {
     const { location, history } = this.props;
@@ -56,13 +59,13 @@ class Movies extends Component {
     });
   };
   updateMovies = (params) => {
-    this.props.loaderToggle(true);
+    this.props.Loader(true);
     request("get", getSearch(params ? params : this.state.search, this.state.page))
       .then((response) => {
         this.setState({ movies: response.results, totalResults: response.total_results, totalPages: response.total_pages });
       })
-      .catch((error) => console.log(error))
-      .finally(() => this.props.loaderToggle(false));
+      .catch((error) => console.log(error));
+    this.props.Loader(false);
   };
 
   render() {
@@ -81,7 +84,11 @@ class Movies extends Component {
   }
 }
 
-export default Movies;
+const mapDispatchToProps = {
+  Loader,
+};
+
+export default connect(null, mapDispatchToProps)(Movies);
 
 Movies.propTypes = {
   history: PropTypes.object.isRequired,

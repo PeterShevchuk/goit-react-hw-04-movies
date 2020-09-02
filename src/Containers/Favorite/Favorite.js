@@ -1,26 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+
 import MoviesItem from "../../Components/MoviesItem/MoviesItem";
 import Storage from "../../Components/Storage/Storage";
 
+// redux
+import { useDispatch, useSelector } from "react-redux";
+import Loader from "../../redux/actions/loaderActions";
+import { removeFavorite } from "../../redux/actions/FavoriteActions";
+
 import "./Favorite.css";
 
-const Favorite = ({ loaderToggle, saveToStorage, getFromStorage }) => {
-  let getFavorite = getFromStorage("FavoriteMovie");
-  if (!getFavorite) {
-    getFavorite = [];
-    saveToStorage("FavoriteMovie", getFavorite);
-  }
-  const [favorite, setFavorite] = useState(getFavorite);
+const Favorite = () => {
+  const dispatch = useDispatch();
+
+  const favorite = useSelector((state) => state.favoriteMovie);
 
   useEffect(() => {
-    loaderToggle(true);
-    loaderToggle(false);
-  }, [loaderToggle]);
-
-  const removeFavorite = (id) => {
-    saveToStorage("FavoriteMovie", [...favorite.filter((item) => item.id !== id)]);
-    setFavorite([...favorite.filter((item) => item.id !== id)]);
-  };
+    dispatch(Loader(true));
+    dispatch(Loader(false));
+  }, [dispatch]);
 
   return (
     <ul className="movies__list">
@@ -29,7 +27,7 @@ const Favorite = ({ loaderToggle, saveToStorage, getFromStorage }) => {
           <h1>No movies in favorite</h1>
         </li>
       )}
-      {favorite.length > 0 && favorite.map((item) => <MoviesItem key={item.id} {...item} removeFavorite={removeFavorite} />)}
+      {favorite.length > 0 && favorite.map((item) => <MoviesItem key={item.id} {...item} removeFavorite={() => dispatch(removeFavorite(item.id))} />)}
     </ul>
   );
 };

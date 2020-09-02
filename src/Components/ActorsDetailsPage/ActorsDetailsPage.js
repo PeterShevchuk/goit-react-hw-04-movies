@@ -1,46 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import Button from "@material-ui/core/Button";
-// import Rating from "@material-ui/lab/Rating";
-// import Typography from "@material-ui/core/Typography";
-// import Box from "@material-ui/core/Box";
 
 import { getActors, request } from "../helpers/request";
 import { imgUrlOriginal, imgNon } from "../helpers/vars";
-import Storage from "../../Components/Storage/Storage";
 import MoviesItem from "../../Components/MoviesItem/MoviesItem";
+
+// redux
+import { useDispatch, useSelector } from "react-redux";
+import Loader from "../../redux/actions/loaderActions";
+import DetalActors from "../../redux/actions/ActorsActions";
 
 import "./ActorsDetailsPage.css";
 
-// import Cast from "../Cast/Cast";
-// import Reviews from "../Reviews/Reviews";
-// import Trailer from "../Trailer/Trailer";
-// const Cast = lazy(() => import("../Cast/Cast.js"));
-// const Reviews = lazy(() => import("../Reviews/Reviews.js"));
-// const Trailer = lazy(() => import("../Trailer/Trailer.js"));
+const ActorDetailsPage = ({ match }) => {
+  const dispatch = useDispatch();
+  const { person, job, media_type, media, department } = useSelector((state) => state.detalActors);
 
-const MovieDetailsPage = ({ match, loaderToggle, saveToStorage, getFromStorage }) => {
-  //   const { url } = match;
-
-  const [movie, setMovie] = useState([]);
-  //   const [favorite, setFavorite] = useState(false);
-
-  const { person, job, media_type, media, department } = movie;
-  const movieId = String(useParams().id);
-
+  const actorID = String(useParams().id);
   const history = useHistory();
-  const redirectToActorsPage = (id) => {
-    history.push(`/movies/${id}`);
+  const redirectToActorsPage = () => {
+    history.push(`/movies/${actorID}`);
   };
   useEffect(() => {
-    loaderToggle(true);
-    request("get", getActors(movieId))
-      .then((response) => setMovie(response))
+    request("get", getActors(actorID))
+      .then((response) => dispatch(DetalActors(response)))
       .catch((error) => console.log(error))
-      .finally(() => loaderToggle(false));
-  }, [loaderToggle, match.url, movieId, getFromStorage]);
+      .finally(() => dispatch(Loader(false)));
+  }, [match.url, actorID, dispatch]);
   return (
     <>
       {person && (
@@ -48,7 +37,6 @@ const MovieDetailsPage = ({ match, loaderToggle, saveToStorage, getFromStorage }
           <div className="singleActors__container">
             <img className="singleActors__poster" alt={person.name} src={person.profile_path ? imgUrlOriginal + person.profile_path : imgNon}></img>
             <ul className="singleActors__info">
-              {/* {console.log(name)} */}
               {person.name && (
                 <li className="singleActors__item">
                   <span>Name: </span> {person.name}
@@ -74,24 +62,6 @@ const MovieDetailsPage = ({ match, loaderToggle, saveToStorage, getFromStorage }
                   <span>Type Movie: </span> {media_type} {person.adult && "(+18)"}
                 </li>
               )}
-
-              {/* <li className="singleActors__item">
-              <Button variant="contained" color="primary" onClick={favoriteToggle}>
-                {favorite ? "remove from" : "add to"} favorite
-              </Button>
-              <Button variant="contained" color="primary">
-                <NavLink to={`${url}/reviews`}>Reviews</NavLink>
-              </Button>
-              <Button variant="contained" color="primary">
-                <NavLink to={`${url}/cast`}>Actors</NavLink>
-              </Button>
-              <Button variant="contained" color="primary">
-                <NavLink to={`${url}/trailer`}>trailer</NavLink>
-              </Button>
-              <Button variant="contained" color="primary" href={homepage} target="_blank" disabled={homepage ? false : true}>
-                homepage
-              </Button>
-            </li> */}
             </ul>
           </div>
           {media && (
@@ -135,7 +105,7 @@ const MovieDetailsPage = ({ match, loaderToggle, saveToStorage, getFromStorage }
                     )}
                   </ul>
                   <div className="singleActors__info-seeMore">
-                    <Button variant="contained" color="primary" onClick={() => redirectToActorsPage(media.id)}>
+                    <Button variant="contained" color="primary" onClick={() => redirectToActorsPage()}>
                       See more info
                     </Button>
                   </div>
@@ -159,9 +129,8 @@ const MovieDetailsPage = ({ match, loaderToggle, saveToStorage, getFromStorage }
   );
 };
 
-export default Storage(MovieDetailsPage);
+export default ActorDetailsPage;
 
-MovieDetailsPage.propTypes = {
-  loaderToggle: PropTypes.func.isRequired,
+ActorDetailsPage.propTypes = {
   match: PropTypes.object.isRequired,
 };

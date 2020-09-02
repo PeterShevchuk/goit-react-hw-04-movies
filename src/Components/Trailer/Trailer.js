@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from "react";
 
-import { request, getSearch } from "../helpers/request";
+// redux
+import { useDispatch } from "react-redux";
+import Loader from "../../redux/actions/loaderActions";
 
-const Trailer = ({ movieId, match, loaderToggle }) => {
+import { request, getMovie } from "../helpers/request";
+
+const Trailer = ({ movieId, match }) => {
   const [trailer, setTrailer] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    loaderToggle(true);
+    dispatch(Loader(true));
     const parse = match.url.split("/");
-    request("get", getSearch(movieId ? movieId : parse[2], "/videos"))
-      .then((response) => setTrailer(response.results))
+    request("get", getMovie(movieId ? movieId : parse[2], "/videos"))
+      .then((response) => {
+        setTrailer(response.results);
+      })
       .catch((error) => console.log(error))
-      .finally(() => loaderToggle(false));
-  }, [movieId, match.url, loaderToggle]);
+      .finally(() => dispatch(Loader(false)));
+  }, [movieId, match.url, dispatch]);
   return (
     <>
       <h2>{trailer.length ? "Trailers" : "No Trailers"}</h2>

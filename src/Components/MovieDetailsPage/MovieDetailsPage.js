@@ -1,15 +1,19 @@
-import React, { useEffect, useState, Suspense, lazy } from "react";
+import React, { useEffect, Suspense, lazy } from "react";
 import { useParams, NavLink, Switch, Route } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import Button from "@material-ui/core/Button";
 import Rating from "@material-ui/lab/Rating";
-// import Typography from "@material-ui/core/Typography";
-// import Box from "@material-ui/core/Box";
 
 import { getMovie, request } from "../helpers/request";
 import { imgUrlOriginal, imgNon } from "../helpers/vars";
 import Storage from "../../Components/Storage/Storage";
+
+// redux
+import { useDispatch, useSelector } from "react-redux";
+import Loader from "../../redux/actions/loaderActions";
+import DetalMovie from "../../redux/actions/MovieActions";
+import { addFavorite, removeFavorite } from "../../redux/actions/FavoriteActions";
 
 import "./MovieDetailsPage.css";
 
@@ -20,11 +24,10 @@ const Cast = lazy(() => import("../Cast/Cast.js"));
 const Reviews = lazy(() => import("../Reviews/Reviews.js"));
 const Trailer = lazy(() => import("../Trailer/Trailer.js"));
 
-const MovieDetailsPage = ({ match, loaderToggle, saveToStorage, getFromStorage }) => {
+const MovieDetailsPage = ({ match }) => {
   const { url } = match;
-
-  const [movie, setMovie] = useState([]);
-  const [favorite, setFavorite] = useState(false);
+  const state = useSelector((state) => state);
+  const dispatch = useDispatch();
 
   const {
     title,
@@ -47,42 +50,28 @@ const MovieDetailsPage = ({ match, loaderToggle, saveToStorage, getFromStorage }
     vote_average,
     // vote_count,
     id,
-  } = movie;
+  } = state.detalMovie;
   const movieId = Number(useParams().id);
 
   const favoriteToggle = () => {
-    const getFavorite = getFromStorage("FavoriteMovie");
-    if (getFavorite && getFavorite.find((item) => item.id === movieId)) {
-      saveToStorage("FavoriteMovie", [...getFavorite.filter((item) => item.id !== movieId)]);
-      setFavorite(false);
+    if (state.favoriteMovie.find((item) => item.id === movieId)) {
+      dispatch(removeFavorite(movieId));
       return;
     }
-    const newFavorite = { poster_path: poster_path, backdrop_path: backdrop_path, id: id, title: title };
-    setFavorite(true);
-    if (getFavorite) {
-      saveToStorage("FavoriteMovie", [newFavorite, ...getFavorite]);
-      return;
-    }
-
-    saveToStorage("FavoriteMovie", [newFavorite]);
+    dispatch(addFavorite({ poster_path: poster_path, backdrop_path: backdrop_path, id: id, title: title }));
   };
 
   useEffect(() => {
-    loaderToggle(true);
-    const getFavorite = getFromStorage("FavoriteMovie");
-    if (getFavorite && movieId && getFavorite.find((item) => item.id === movieId)) {
-      setFavorite(true);
-    }
     request("get", getMovie(movieId))
-      .then((response) => setMovie(response))
+      .then((response) => dispatch(DetalMovie(response)))
       .catch((error) => console.log(error))
-      .finally(() => loaderToggle(false));
-  }, [loaderToggle, match.url, movieId, getFromStorage]);
+      .finally(() => dispatch(Loader(false)));
+  }, [match.url, movieId, dispatch]);
 
   return (
     <>
       <div className="singleMovie">
-        {movie ? (
+        {title ? (
           <div className="singleMovie__container">
             <img className="singleMovie__poster" alt={title} src={poster_path ? imgUrlOriginal + poster_path : backdrop_path ? imgUrlOriginal + backdrop_path : imgNon}></img>
             <ul className="singleMovie__info">
@@ -191,7 +180,7 @@ const MovieDetailsPage = ({ match, loaderToggle, saveToStorage, getFromStorage }
 
               <li className="singleMovie__item">
                 <Button variant="contained" color="primary" onClick={favoriteToggle}>
-                  {favorite ? "remove from" : "add to"} favorite
+                  {state.favoriteMovie.find((item) => item.id === movieId) ? "remove from" : "add to"} favorite
                 </Button>
                 <Button variant="contained" color="primary">
                   <NavLink to={`${url}/reviews`}>Reviews</NavLink>
@@ -217,9 +206,9 @@ const MovieDetailsPage = ({ match, loaderToggle, saveToStorage, getFromStorage }
         )}
         <Suspense fallback={<p>Compaling...</p>}>
           <Switch>
-            <Route path={`${url}/reviews`} render={(props) => <Reviews {...props} id={id} loaderToggle={loaderToggle} />} />
-            <Route path={`${url}/cast`} render={(props) => <Cast {...props} id={id} loaderToggle={loaderToggle} />} />
-            <Route path={`${url}/trailer`} render={(props) => <Trailer {...props} movieId={id} loaderToggle={loaderToggle} />} />
+            <Route path={`${url}/reviews`} render={(props) => <Reviews {...props} id={id} />} />
+            <Route path={`${url}/cast`} render={(props) => <Cast {...props} id={id} />} />
+            <Route path={`${url}/trailer`} render={(props) => <Trailer {...props} movieId={id} />} />
           </Switch>
         </Suspense>
       </div>
@@ -230,6 +219,5 @@ const MovieDetailsPage = ({ match, loaderToggle, saveToStorage, getFromStorage }
 export default Storage(MovieDetailsPage);
 
 MovieDetailsPage.propTypes = {
-  loaderToggle: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
 };
