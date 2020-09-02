@@ -1,9 +1,9 @@
 import axios from "axios";
 
-import { API_KEY, URL, LANG, region, year, adult } from "./vars";
+import { API_KEY, URL, LANG, region, year, adult, HOMELOADPAGE } from "./vars";
 
-export const getHomeMovie = (page, homeLoad) => {
-  return `${URL}/movie/${homeLoad}?api_key=${API_KEY}${region}&page=${page}${year}`;
+export const getHomeMovie = (page, type) => {
+  return `${URL}/movie/${HOMELOADPAGE[type]}?api_key=${API_KEY}${region}&page=${page}${year}`;
 };
 
 export const getSearch = (search, page = 1) => {

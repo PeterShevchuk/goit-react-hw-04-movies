@@ -5,18 +5,14 @@ import Storage from "../../Components/Storage/Storage";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
-import Loader from "../../redux/actions/loaderActions";
-import { removeFavorite } from "../../redux/actions/FavoriteActions";
+import { Loader } from "../../redux/slice/Loader";
 
 import "./Favorite.css";
 
 const Favorite = () => {
   const dispatch = useDispatch();
-
   const favorite = useSelector((state) => state.favoriteMovie);
-
   useEffect(() => {
-    dispatch(Loader(true));
     dispatch(Loader(false));
   }, [dispatch]);
 
@@ -27,7 +23,7 @@ const Favorite = () => {
           <h1>No movies in favorite</h1>
         </li>
       )}
-      {favorite.length > 0 && favorite.map((item) => <MoviesItem key={item.id} {...item} removeFavorite={() => dispatch(removeFavorite(item.id))} />)}
+      {favorite.length > 0 && favorite.map((item) => <MoviesItem key={item.id} {...item} />)}
     </ul>
   );
 };

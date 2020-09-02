@@ -8,68 +8,49 @@ import Tab from "@material-ui/core/Tab";
 
 // redux
 import { connect } from "react-redux";
-import Loader from "../../redux/actions/loaderActions";
+import { Loader } from "../../redux/slice/Loader";
 import { getHomeMovie, request } from "../../Components/helpers/request";
 import MoviesItem from "../../Components/MoviesItem/MoviesItem";
-import { handleChange } from "../../redux/actions/HomePageActions";
+import { handleChange, setMovie, handleChangeTabs } from "../../redux/slice/HomePage";
 
 import "./Home.css";
 
 class Home extends Component {
-  state = {
-    movies: [],
-    page: 1,
-    // totalResults: 0,
-    totalPages: 0,
-    HomeValue: 0,
-    HomeLoad: "popular",
-  };
-
-  updateMovies = (homeLoad) => {
-    this.props.Loader(true);
-    request("get", getHomeMovie(this.state.page, homeLoad ? homeLoad : this.state.HomeLoad)).then((result) => this.setState({ movies: result.results, totalPages: result.total_pages }));
+  updateMovies = async () => {
+    await this.props.Loader(true);
+    await request("get", getHomeMovie(this.props.page, this.props.HomeLoad)).then((result) => this.props.setMovie(result));
     this.props.Loader(false);
   };
-  handleChange = (event, value) => {
-    this.setState({
-      page: value,
-    });
-  };
-  componentDidMount = async () => {
-    const HomePageLoadOtions = JSON.parse(localStorage.getItem("HomeLoadMovie"));
-    this.updateMovies(HomePageLoadOtions ? HomePageLoadOtions.HomeLoad : null);
-    if (HomePageLoadOtions) {
-      this.setState({ HomeValue: HomePageLoadOtions.HomeValue, HomeLoad: HomePageLoadOtions.HomeLoad });
-    }
+  componentDidMount = () => {
+    this.updateMovies();
   };
   componentDidUpdate = async (prevProps, prevState) => {
-    const { page } = this.state;
-    if (page === prevState.page) {
+    const { page } = this.props;
+    if (page === prevProps.page) {
       return;
     }
 
     this.updateMovies();
   };
-  handleChangeTabs = async (event, newValue) => {
-    const homeLoad = event.target.name ? event.target.name : event.target.parentNode.name;
-    if (String(homeLoad) === String(this.state.HomeLoad)) {
+  handleChangeTabs = async (event, homeLoad) => {
+    if (homeLoad === this.props.HomeLoad) {
       return;
     }
-    await this.setState({ HomeValue: newValue, HomeLoad: homeLoad, page: 1 });
-    localStorage.getItem("HomeLoadMovie", JSON.stringify({ HomeValue: newValue, HomeLoad: homeLoad }));
+    await this.props.handleChange(1);
+    await this.props.handleChangeTabs(homeLoad);
     this.updateMovies();
   };
 
   render() {
-    const { movies, page, totalPages, HomeValue } = this.state;
+    const { movies, totalPages, HomeLoad, page, handleChange } = this.props;
     return (
       <>
         <Paper square>
-          <Tabs value={HomeValue} indicatorColor="primary" textColor="primary" onChange={this.handleChangeTabs} aria-label="disabled tabs example" centered>
-            <Tab label="Popular" name="popular" />
-            <Tab label="Top" name="top_rated" />
-            <Tab label="upcoming" name="upcoming" />
-            <Tab label="Now playing" name="now_playing" />
+          <Tabs value={HomeLoad} indicatorColor="primary" textColor="primary" onChange={this.handleChangeTabs} aria-label="disabled tabs example" centered>
+            <Tab label="Popular" />
+            <Tab label="Top" />
+            <Tab label="upcoming" />
+            <Tab label="Now playing" />
           </Tabs>
         </Paper>
         <ul className="movies__list">
@@ -77,7 +58,7 @@ class Home extends Component {
             <MoviesItem key={item.id} {...item} />
           ))}
         </ul>
-        {<Pagination color="primary" count={totalPages} page={page} onChange={this.handleChange} />}
+        {<Pagination color="primary" count={totalPages} page={page} onChange={(event, value) => handleChange(value)} />}
       </>
     );
   }
@@ -92,8 +73,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
+  setMovie,
   handleChange,
   Loader,
+  handleChangeTabs,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

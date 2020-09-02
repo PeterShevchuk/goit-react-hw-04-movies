@@ -11,3 +11,10 @@ export const LANG = "&language=en-US";
 export const region = "&region=ua";
 export const year = "&primary_release_year=2020";
 export const adult = "&include_adult=false";
+
+// Home page
+export const HOMELOADPAGE = ["popular", "top_rated", "upcoming", "now_playing"];
+export const HOMEPAGESTORAGE = "HomeLoadOptions";
+
+// Movie page
+export const MOVIEFAVORITESTORAGE = "FavoriteMovie";

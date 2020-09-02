@@ -1,11 +1,16 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
+// redux
+import { useDispatch } from "react-redux";
+import { removeFavorite } from "../../redux/slice/Favorite";
+
 import { imgUrl, imgNon } from "../helpers/vars";
 import removeIcon from "../../img/remove.png";
 import "./MoviesItem.css";
 
-const MoviesItem = ({ poster_path, backdrop_path, id, title, removeFavorite, adult }) => {
+const MoviesItem = ({ poster_path, backdrop_path, id, title, adult }) => {
+  const dispatch = useDispatch();
   const history = useHistory();
   const redirectToMoviePage = () => {
     history.push(`/movies/${id}`);
@@ -16,7 +21,7 @@ const MoviesItem = ({ poster_path, backdrop_path, id, title, removeFavorite, adu
       <p className="movies__title">
         {adult && "(18+)"} {title}{" "}
       </p>
-      {removeFavorite && <img className="movies__favorite-remove" alt={id} src={removeIcon} onClick={() => removeFavorite(id)} />}
+      {removeFavorite && <img className="movies__favorite-remove" alt={id} src={removeIcon} onClick={() => dispatch(removeFavorite(id))} />}
     </li>
   );
 };

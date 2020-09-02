@@ -1,16 +1,18 @@
 import { combineReducers } from "redux";
-import Loader from "./loaderReducer";
-import DetalActors from "./ActorsReducer";
-import DetalMovie from "./MovieReducer";
-import FavoriteMovie from "./FavoriteMovieReducer";
-import HomePage from "./HomePageReducer";
+import loader from "../slice/Loader";
+import detalActors from "./ActorsReducer";
+import detalMovie from "./MovieReducer";
+import favoriteMovie from "./FavoriteMovieReducer";
+import homePage from "../slice/HomePage";
+import moviePage from "../slice/MoviePage";
 
 const rootReducer = combineReducers({
-  loader: Loader,
-  detalActors: DetalActors,
-  detalMovie: DetalMovie,
-  favoriteMovie: FavoriteMovie,
-  homePage: HomePage,
+  loader,
+  detalActors,
+  detalMovie,
+  favoriteMovie,
+  homePage,
+  moviePage,
 });
 
 export default rootReducer;

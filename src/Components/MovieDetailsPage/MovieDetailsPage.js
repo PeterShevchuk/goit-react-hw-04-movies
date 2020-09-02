@@ -11,9 +11,9 @@ import Storage from "../../Components/Storage/Storage";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
-import Loader from "../../redux/actions/loaderActions";
-import DetalMovie from "../../redux/actions/MovieActions";
-import { addFavorite, removeFavorite } from "../../redux/actions/FavoriteActions";
+import { Loader } from "../../redux/slice/Loader";
+import { detalMovie } from "../../redux/slice/MovieDetails";
+import { addFavorite, removeFavorite } from "../../redux/slice/Favorite";
 
 import "./MovieDetailsPage.css";
 
@@ -63,7 +63,7 @@ const MovieDetailsPage = ({ match }) => {
 
   useEffect(() => {
     request("get", getMovie(movieId))
-      .then((response) => dispatch(DetalMovie(response)))
+      .then((response) => dispatch(detalMovie(response)))
       .catch((error) => console.log(error))
       .finally(() => dispatch(Loader(false)));
   }, [match.url, movieId, dispatch]);
@@ -92,7 +92,7 @@ const MovieDetailsPage = ({ match }) => {
               )}
               {vote_average > 0 && (
                 <li className="singleMovie__item singleMovie__item--center">
-                  <Rating readOnly={true} name="customized-10" defaultValue={vote_average} max={10} precision={0.5} size="large" />
+                  <Rating readOnly={true} name="customized-10" defaultValue={vote_average ? vote_average : 0} max={10} precision={0.5} size="large" />
                   {/* <span>Rate: </span> {vote_average}/{vote_count} */}
                 </li>
               )}

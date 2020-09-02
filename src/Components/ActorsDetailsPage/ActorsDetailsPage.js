@@ -10,8 +10,8 @@ import MoviesItem from "../../Components/MoviesItem/MoviesItem";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
-import Loader from "../../redux/actions/loaderActions";
-import DetalActors from "../../redux/actions/ActorsActions";
+import { Loader } from "../../redux/slice/Loader";
+import { detalActor } from "../../redux/slice/ActorDetails";
 
 import "./ActorsDetailsPage.css";
 
@@ -26,7 +26,7 @@ const ActorDetailsPage = ({ match }) => {
   };
   useEffect(() => {
     request("get", getActors(actorID))
-      .then((response) => dispatch(DetalActors(response)))
+      .then((response) => dispatch(detalActor(response)))
       .catch((error) => console.log(error))
       .finally(() => dispatch(Loader(false)));
   }, [match.url, actorID, dispatch]);
