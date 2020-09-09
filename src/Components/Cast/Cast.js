@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 
 import { getMovie, request } from "../helpers/request";
@@ -6,7 +7,7 @@ import { imgUrl } from "../helpers/vars";
 
 // redux
 import { useDispatch } from "react-redux";
-import Loader from "../../redux/actions/loaderActions";
+import { Loader } from "../../redux/slice/Loader";
 
 import noAvatar from "../../img/noAvatar.png";
 
@@ -55,3 +56,8 @@ const Cast = ({ movieId, match }) => {
 };
 
 export default Cast;
+
+Cast.propTypes = {
+  movieId: PropTypes.number.isRequired,
+  match: PropTypes.object.isRequired,
+};

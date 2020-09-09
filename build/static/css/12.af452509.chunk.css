@@ -1,2 +1,0 @@
-.cast{display:grid;grid-template-columns:1fr 1fr 1fr}.cast__item{display:flex;justify-content:flex-start;list-style:none;padding:5px;border:1px solid #ccc;border-radius:5px;margin:5px 0;align-items:center}.cast__item:not(:nth-child(3n-3)){margin-right:5px}.cast__info{padding:0 20px}.cast__img{width:50px;height:auto;border-radius:5px}.cast__info-character{color:#bbb}.cast__info-name:hover{cursor:pointer;text-decoration:underline}
-/*# sourceMappingURL=12.af452509.chunk.css.map */

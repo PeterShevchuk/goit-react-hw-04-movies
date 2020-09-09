@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import queryString from "query-string";
 import Pagination from "@material-ui/lab/Pagination";
 
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 // import { useHistory, useLocation } from "react-router-dom";
 
 // Redux
@@ -23,6 +23,7 @@ class Movies extends Component {
       await this.props.handleChange(Number(parse.page));
       await this.props.inputHeandler(parse.search);
       await this.updateMovies();
+      return;
     }
     this.props.Loader(false);
   };
@@ -75,10 +76,15 @@ const mapDispatchToProps = {
 
 export default connect(mapStateToProps, mapDispatchToProps)(Movies);
 
-// Movies.propTypes = {
-//   history: PropTypes.object.isRequired,
-//   loaderToggle: PropTypes.func.isRequired,
-//   location: PropTypes.object.isRequired,
-//   match: PropTypes.object.isRequired,
-//   staticContext: PropTypes.bool,
-// };
+Movies.propTypes = {
+  history: PropTypes.object.isRequired,
+  movies: PropTypes.array.isRequired,
+  page: PropTypes.number.isRequired,
+  search: PropTypes.string.isRequired,
+  totalPages: PropTypes.number.isRequired,
+  setMovie: PropTypes.func.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  Loader: PropTypes.func.isRequired,
+  resetForm: PropTypes.func.isRequired,
+  inputHeandler: PropTypes.func.isRequired,
+};

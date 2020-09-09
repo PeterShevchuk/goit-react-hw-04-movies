@@ -8,3 +8,7 @@
 .MuiFormControlLabel-root {
   margin-left: auto !important;
 }
+
+.header-nav > *:nth-last-child(2) {
+  margin-left: auto;
+}

@@ -1,0 +1,52 @@
+h1.title {
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.registration-form input,
+.login-form input {
+  display: block;
+  margin-bottom: 20px;
+  padding: 10px;
+  font-size: 20px;
+}
+.registration-form,
+.login-form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: center;
+}
+.registration-form button,
+.login-form button {
+  padding: 20px;
+  font-size: 20px;
+  background-color: rgb(63, 81, 181);
+  border: 0;
+  color: #ffffff;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+.registration-form button:hover,
+.login-form button:hover {
+  background-color: rgba(63, 81, 181, 0.9);
+}
+.login-form input {
+  display: block;
+  margin-bottom: 20px;
+  padding: 10px;
+  font-size: 20px;
+}
+.login-form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  max-width: 500px;
+  margin: 0 auto;
+}
+.login-form button {
+  padding: 20px;
+  font-size: 20px;
+}

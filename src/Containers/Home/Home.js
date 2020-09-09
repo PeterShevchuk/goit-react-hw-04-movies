@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 
 import Pagination from "@material-ui/lab/Pagination";
 import Paper from "@material-ui/core/Paper";
@@ -11,7 +11,8 @@ import { connect } from "react-redux";
 import { Loader } from "../../redux/slice/Loader";
 import { getHomeMovie, request } from "../../Components/helpers/request";
 import MoviesItem from "../../Components/MoviesItem/MoviesItem";
-import { handleChange, setMovie, handleChangeTabs } from "../../redux/slice/HomePage";
+import { handleChange, setMovie } from "../../redux/slice/HomePage";
+import { changeOptions } from "../../redux/slice/Options";
 
 import "./Home.css";
 
@@ -37,7 +38,7 @@ class Home extends Component {
       return;
     }
     await this.props.handleChange(1);
-    await this.props.handleChangeTabs(homeLoad);
+    await this.props.changeOptions({ HomeLoad: homeLoad });
     this.updateMovies();
   };
 
@@ -69,22 +70,25 @@ const mapStateToProps = (state) => ({
   page: state.homePage.page,
   totalPages: state.homePage.totalPages,
   HomeValue: state.homePage.HomeValue,
-  HomeLoad: state.homePage.HomeLoad,
+  HomeLoad: state.options.HomeLoad,
 });
 
 const mapDispatchToProps = {
   setMovie,
   handleChange,
   Loader,
-  handleChangeTabs,
+  changeOptions,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
-// Home.propTypes = {
-//   history: PropTypes.object.isRequired,
-//   loaderToggle: PropTypes.func.isRequired,
-//   location: PropTypes.object.isRequired,
-//   match: PropTypes.object.isRequired,
-//   staticContext: PropTypes.bool,
-// };
+Home.propTypes = {
+  movies: PropTypes.array.isRequired,
+  page: PropTypes.number.isRequired,
+  totalPages: PropTypes.number.isRequired,
+  HomeLoad: PropTypes.number.isRequired,
+  setMovie: PropTypes.func.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  Loader: PropTypes.func.isRequired,
+  changeOptions: PropTypes.func.isRequired,
+};

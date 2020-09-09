@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 import { useHistory, useLocation } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -26,3 +28,7 @@ const Form = ({ updateMovies }) => {
 };
 
 export default Form;
+
+Form.propTypes = {
+  updateMovies: PropTypes.func.isRequired,
+};

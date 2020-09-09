@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 
 import MoviesItem from "../../Components/MoviesItem/MoviesItem";
-import Storage from "../../Components/Storage/Storage";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +12,7 @@ const Favorite = () => {
   const dispatch = useDispatch();
   const favorite = useSelector((state) => state.favoriteMovie);
   useEffect(() => {
+    dispatch(Loader(true));
     dispatch(Loader(false));
   }, [dispatch]);
 
@@ -28,4 +28,4 @@ const Favorite = () => {
   );
 };
 
-export default Storage(Favorite);
+export default Favorite;

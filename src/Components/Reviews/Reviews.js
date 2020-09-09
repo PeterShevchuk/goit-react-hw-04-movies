@@ -4,7 +4,7 @@ import { getMovie, request } from "../helpers/request";
 
 // redux
 import { useDispatch } from "react-redux";
-import Loader from "../../redux/actions/loaderActions";
+import { Loader } from "../../redux/slice/Loader";
 
 import "./Reviews.css";
 

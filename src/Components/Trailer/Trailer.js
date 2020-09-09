@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 
 // redux
 import { useDispatch } from "react-redux";
-import Loader from "../../redux/actions/loaderActions";
+import { Loader } from "../../redux/slice/Loader";
 
 import { request, getMovie } from "../helpers/request";
 
@@ -29,3 +30,8 @@ const Trailer = ({ movieId, match }) => {
 };
 
 export default Trailer;
+
+Trailer.propTypes = {
+  match: PropTypes.object.isRequired,
+  page: PropTypes.number.isRequired,
+};

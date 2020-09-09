@@ -1,4 +1,6 @@
 import React from "react";
+
+import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 
 // redux
@@ -27,3 +29,11 @@ const MoviesItem = ({ poster_path, backdrop_path, id, title, adult }) => {
 };
 
 export default MoviesItem;
+
+MoviesItem.propTypes = {
+  poster_path: PropTypes.string,
+  backdrop_path: PropTypes.string,
+  id: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  adult: PropTypes.bool,
+};

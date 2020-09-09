@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const DetalMovie = createSlice({
-  name: "favorite",
+  name: "movie",
   initialState: [],
   reducers: {
     detalMovie: (state, { payload }) => payload,

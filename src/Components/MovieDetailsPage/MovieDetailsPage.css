@@ -26,7 +26,7 @@
   padding-left: 20px;
   list-style: none;
 }
-.singleMovie__item:not(:last-child) {
+.singleMovie__item {
   padding: 5px 10px;
   border: 1px solid #cccccc;
   border-radius: 5px;
@@ -46,7 +46,7 @@
 .singleMovie__item > p:not(:last-child)::after {
   content: ",";
 }
-.singleMovie__item:not(:last-child) > * {
+.singleMovie__item > * {
   width: 50%;
 }
 .singleMovie__item-list {
@@ -57,14 +57,15 @@
   display: inline-block;
   margin-right: 5px;
 }
-.singleMovie__item:last-child {
+.singleMovie_btns {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  margin-bottom: 50px;
 }
-.singleMovie__item:last-child Button:not(:last-child) {
+.singleMovie_btns > *:not(:last-child) {
   margin-right: 10px;
 }
-.singleMovie__item:last-child Button a {
+.singleMovie_btns Button a {
   color: #ffffff;
   text-decoration: transparent;
 }

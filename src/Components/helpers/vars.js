@@ -1,9 +1,10 @@
-// Header
-export const LOADIMAGEOPTIONS = "LoadImageOptions";
-const img = ["w500", "original"];
-const LoadImages = JSON.parse(localStorage.getItem(LOADIMAGEOPTIONS));
+// Options
+export const SITEOPTIONS = "SiteOptions";
 
-export const imgUrl = `https://image.tmdb.org/t/p/${LoadImages ? img[1] : img[0]}`;
+// Header
+const img = ["w500", "original"];
+
+export const imgUrl = `https://image.tmdb.org/t/p/${img[localStorage.getItem(SITEOPTIONS) ? JSON.parse(localStorage.getItem(SITEOPTIONS)).LoadImage : 0]}`;
 export const imgNon = "https://cdn.shopify.com/s/files/1/1841/2299/products/032_RGB_grande.jpg?v=1589096608";
 
 // request
@@ -20,3 +21,7 @@ export const HOMEPAGESTORAGE = "HomeLoadOptions";
 
 // Movie page
 export const MOVIEFAVORITESTORAGE = "FavoriteMovie";
+
+// Auth
+export const USERTOKEN = "userToken";
+export const USERINFO = "userInfo";

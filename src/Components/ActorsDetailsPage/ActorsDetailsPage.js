@@ -22,7 +22,7 @@ const ActorDetailsPage = ({ match }) => {
   const actorID = String(useParams().id);
   const history = useHistory();
   const redirectToActorsPage = () => {
-    history.push(`/movies/${actorID}`);
+    history.push(`/movies/${media.id}`);
   };
   useEffect(() => {
     request("get", getActors(actorID))

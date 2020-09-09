@@ -5,6 +5,8 @@ import Loader from "react-loader-spinner";
 
 import { useSelector } from "react-redux";
 
+import { navigation } from "./vars";
+
 // import Pagination from "@material-ui/lab/Pagination";
 
 // My Components
@@ -25,24 +27,33 @@ const Header = lazy(() => import("./Components/Header/Header"));
 const Home = lazy(() => import("./Containers/Home/Home.js"));
 const Movies = lazy(() => import("./Containers/Movies/Movies.js"));
 const Favorite = lazy(() => import("./Containers/Favorite/Favorite.js"));
+const Login = lazy(() => import("./Containers/Sing/Login"));
+const Registration = lazy(() => import("./Containers/Sing/Registration"));
 
 const App = () => {
+  const options = useSelector((state) => state.options);
   return (
     <div className="App">
       {useSelector((state) => state.loader) && (
         <span className="loader">
-          <Loader type="Oval" color="#00BFFF" height={300} width={300} />
+          <Loader type="Oval" color="#00BFFF" height={300} width={300} timeout={1000} />
         </span>
       )}
       <Suspense fallback={<p>Compaling...</p>}>
         <Header />
         <main className="main">
           <Switch>
-            <Route path="/" exact render={(props) => <Home {...props} />} />
-            <Route path="/movies" exact render={(props) => <Movies {...props} />} />
-            <Route path="/movies/favorite" exact render={(props) => <Favorite {...props} />} />
-            <Route path="/movies/:id" render={(props) => <MovieDetailsPage {...props} />} />
-            <Route path="/actors/:id" render={(props) => <ActorsDetailsPage {...props} />} />
+            <Route path={navigation.home} exact render={(props) => <Home {...props} />} />
+            <Route path={navigation.movies} exact render={(props) => <Movies {...props} />} />
+            <Route path={navigation.moviesFavorite} exact render={(props) => <Favorite {...props} />} />
+            <Route path={navigation.movies + "/:id"} render={(props) => <MovieDetailsPage {...props} />} />
+            <Route path={navigation.actors + "/:id"} render={(props) => <ActorsDetailsPage {...props} />} />
+            {!options.Token && (
+              <>
+                <Route path={navigation.login} render={(props) => <Login {...props} />} />
+                <Route path={navigation.registration} render={(props) => <Registration {...props} />} />
+              </>
+            )}
             <Redirect to="/" />
           </Switch>
         </main>

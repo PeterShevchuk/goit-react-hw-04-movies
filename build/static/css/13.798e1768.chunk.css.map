@@ -1,1 +1,0 @@
-{"version":3,"sources":["Header.css"],"names":[],"mappings":"AAAA,MACE,UAAc,CACd,mCAA4B,CAA5B,2BACF,CACA,oBACE,wBACF","file":"13.798e1768.chunk.css","sourcesContent":[".link {\r\n  color: #ffffff;\r\n  text-decoration: transparent;\r\n}\r\n.App > .MuiPaper-root {\r\n  position: fixed !important;\r\n}\r\n"]}

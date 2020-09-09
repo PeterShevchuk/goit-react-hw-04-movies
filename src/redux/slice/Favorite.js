@@ -1,20 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { MOVIEFAVORITESTORAGE } from "../../Components/helpers/vars";
-
-const initialState = JSON.parse(localStorage.getItem(MOVIEFAVORITESTORAGE));
-
-const saveToStorage = (newObj) => {
-  console.log(newObj);
-  localStorage.setItem(MOVIEFAVORITESTORAGE, JSON.stringify(newObj));
-  return newObj;
-};
 
 const favoriteMovie = createSlice({
   name: "favorite",
-  initialState: initialState ? initialState : [],
+  initialState: [],
   reducers: {
-    addFavorite: (state, { payload }) => saveToStorage([payload, ...state]),
-    removeFavorite: (state, { payload }) => saveToStorage([...state.filter((item) => item.id !== payload)]),
+    addFavorite: (state, { payload }) => [payload, ...state],
+    removeFavorite: (state, { payload }) => [...state.filter((item) => item.id !== payload)],
   },
 });
 
