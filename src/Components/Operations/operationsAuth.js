@@ -7,7 +7,6 @@ const baseURL = "https://goit-phonebook-api.herokuapp.com/users/";
 
 export const createNewUser = (userData) => async (dispatch) => {
   try {
-    // console.log(userData);
     dispatch(Loader(true));
     const result = await axios({
       method: "post",
@@ -24,7 +23,6 @@ export const createNewUser = (userData) => async (dispatch) => {
 
 export const userLogin = (userData) => async (dispatch) => {
   try {
-    // console.log(userData);
     dispatch(Loader(true));
     const result = await axios({
       method: "post",
@@ -41,9 +39,7 @@ export const userLogin = (userData) => async (dispatch) => {
 
 export const userLoginOut = (token) => async (dispatch) => {
   try {
-    // console.log(userData);
     dispatch(Loader(true));
-    // const result = await axios.post(baseURL + "/users/logout", token);
     await axios({
       method: "post",
       url: baseURL + "logout",
@@ -59,16 +55,13 @@ export const userLoginOut = (token) => async (dispatch) => {
 
 export const getUserInfo = (token) => async (dispatch) => {
   try {
-    // console.log(userData);
     dispatch(Loader(true));
-    // const result = await axios.post(baseURL + "/users/logout", token);
     const result = await axios({
       method: "",
       url: baseURL + "current",
       headers: { Authorization: `Bearer ${token}` },
     });
     dispatch(setUserInfo(result.data));
-    // dispatch(changeOptions({ Token: null, Name: "" }));
   } catch (error) {
     console.log(error);
   } finally {

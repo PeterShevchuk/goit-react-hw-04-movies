@@ -16,7 +16,7 @@ import userInfo from "../redux/slice/UserInfo";
 const persistConfig = {
   key: "reducer",
   storage,
-  blacklist: ["loader"],
+  blacklist: ["loader", "detalActors", "detalMovie"],
   // whitelist: ["reducer"],
 };
 
@@ -36,4 +36,5 @@ export const store = configureStore({
   ),
   devTools: process.env.NODE_ENV !== "production",
 });
+
 export const persistor = persistStore(store);

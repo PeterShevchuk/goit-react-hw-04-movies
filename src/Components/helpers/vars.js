@@ -4,7 +4,7 @@ export const SITEOPTIONS = "SiteOptions";
 // Header
 const img = ["w500", "original"];
 
-export const imgUrl = `https://image.tmdb.org/t/p/${img[localStorage.getItem(SITEOPTIONS) ? JSON.parse(localStorage.getItem(SITEOPTIONS)).LoadImage : 0]}`;
+https: export const imgUrl = `https://image.tmdb.org/t/p/${img[localStorage.getItem(SITEOPTIONS) ? JSON.parse(localStorage.getItem(SITEOPTIONS)).LoadImage : 0]}`;
 export const imgNon = "https://cdn.shopify.com/s/files/1/1841/2299/products/032_RGB_grande.jpg?v=1589096608";
 
 // request
